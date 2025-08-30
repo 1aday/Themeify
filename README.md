@@ -1,36 +1,111 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Themer - shadcn/ui Theme Generator
+
+A web application that lets users generate and edit **shadcn/ui** themes from **text prompts, images, or SVG**. The left panel handles generation and editing; the **right panel is a live mockup** that instantly reflects the active theme without reloading the page or restyling the editor chrome.
+
+## Features
+
+- **AI-Powered Theme Generation**: Generate themes from natural language prompts
+- **Image & SVG Analysis**: Upload images or paste SVG to extract color schemes
+- **Live Preview**: Multiple preview scenes (Cards, Dashboard, Mail, Pricing, Color Palette)
+- **Theme Editing**: Manual editing of colors, typography, and other properties
+- **Accessibility**: WCAG AA contrast checking with auto-fix capabilities
+- **Import/Export**: Support for CSS and JSON formats
+- **Undo/Redo**: Full history management for theme changes
+
+## Architecture
+
+The application follows the specifications outlined in the PRD:
+
+- **Left Sidebar (360px)**: Theme generation and editing tabs
+- **Right Content**: Live preview with scene tabs and controls
+- **Scoped Theme Isolation**: Preview themes don't affect the editor chrome
+- **OKLCH Color Model**: Internal rendering uses OKLCH for perceptual stability
+- **HEX Output**: LLM generates HEX colors as specified in system_prompt.txt
+
+## Tech Stack
+
+- **Next.js 15** with App Router
+- **Tailwind CSS 4** with CSS variables
+- **shadcn/ui** components
+- **Zustand** for state management
+- **Culori** for color conversions
+- **Radix UI** primitives
 
 ## Getting Started
 
-First, run the development server:
+1. **Install dependencies**:
+   ```bash
+   npm install
+   ```
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+2. **Run the development server**:
+   ```bash
+   npm run dev
+   ```
+
+3. **Open your browser** and navigate to `http://localhost:3000`
+
+## Usage
+
+### Generating Themes
+
+1. **Text Prompts**: Enter natural language descriptions like "Retro Terminal UI, green phosphor glow"
+2. **Image Upload**: Drop images to extract dominant colors and mood
+3. **SVG Analysis**: Paste SVG markup to analyze colors and styles
+4. **Base Theme Patching**: Use `@[base_theme]` to modify existing themes
+
+### Editing Themes
+
+- **Colors Tab**: Edit all color tokens with live preview and contrast checking
+- **Typography Tab**: Select Google Fonts and adjust letter spacing
+- **Other Tab**: Modify border radius, shadows, and global transforms
+
+### Preview Scenes
+
+- **Cards**: KPIs, graphs, forms, and CTAs
+- **Dashboard**: Tables, filters, and KPI tiles
+- **Mail**: Sidebar navigation and message view
+- **Pricing**: Tiered pricing with primary CTAs
+- **Color Palette**: Complete theme color overview
+
+## API Integration
+
+The theme generation uses the system prompt defined in `system_prompt.txt` to ensure consistent LLM behavior and output format.
+
+## Development
+
+### Project Structure
+
+```
+/src
+  /components
+    /editor          # Theme editing interface
+    /preview         # Live preview system
+    /ui              # shadcn/ui components
+  /lib
+    /colors          # Color utilities and conversion
+    /fonts           # Google Fonts data
+  /state             # Zustand store
+  /pages/api         # API endpoints
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Key Components
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- **SidebarEditor**: Main editing interface with tabs
+- **ThemePreview**: Scoped preview wrapper with scene routing
+- **Scene Components**: Individual preview scenes (Cards, Dashboard, etc.)
+- **Color Utilities**: HEX↔OKLCH conversion, contrast checking
+- **Theme Store**: Centralized state management
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Contributing
 
-## Learn More
+This project implements the specifications from the PRD document. All changes should maintain:
 
-To learn more about Next.js, take a look at the following resources:
+1. **Preview isolation** - Editor chrome never inherits preview themes
+2. **OKLCH color model** - Internal rendering uses OKLCH, LLM uses HEX
+3. **Accessibility compliance** - WCAG AA contrast requirements
+4. **Performance** - Theme changes apply in ≤1 frame
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## License
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+MIT License - see LICENSE file for details.
