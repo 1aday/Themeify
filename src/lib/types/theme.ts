@@ -72,7 +72,7 @@ export interface LightTheme {
   'shadow-offset-y': string;
 }
 
-export interface DarkTheme extends LightTheme {}
+export type DarkTheme = LightTheme;
 
 // Validation function to ensure the response matches the schema
 export function validateThemeResponse(response: unknown): response is ThemeResponse {

@@ -85,7 +85,7 @@ export const useThemeStore = create<ThemeStore>((set, get) => {
   const initialTheme = createDefaultTheme();
   
   // Don't apply theme during SSR - only on client side
-  let isInitialized = false;
+  const isInitialized = false;
   
   return {
     // Initial state
@@ -408,9 +408,17 @@ export const useThemeStore = create<ThemeStore>((set, get) => {
         }
         
         const data = await response.json();
-        console.log('Logo generated:', data.logoUrl);
+        console.log('Logo API response:', data);
+        console.log('Logo URL from response:', data.logoUrl);
+        console.log('Logo URL type:', typeof data.logoUrl);
         
-        setLogoUrl(data.logoUrl);
+        // Ensure we have a valid string URL
+        if (data.logoUrl && typeof data.logoUrl === 'string') {
+          setLogoUrl(data.logoUrl);
+        } else {
+          console.error('Invalid logo URL received:', data.logoUrl);
+          setLastLogoPrompt('Invalid logo URL received from server');
+        }
         
       } catch (error) {
         console.error('Failed to generate logo:', error);

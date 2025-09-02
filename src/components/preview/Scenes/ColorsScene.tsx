@@ -1,7 +1,6 @@
 'use client';
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
+
 import { Logo } from '@/components/ui/logo';
 import { useThemeStore } from '@/state/themeStore';
 import { Copy, Check } from 'lucide-react';

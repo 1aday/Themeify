@@ -50,13 +50,20 @@ export function Logo({
       {/* Logo Display Area */}
       <div className="flex items-center justify-center">
         {logoUrl ? (
-          <img 
-            src={logoUrl} 
-            alt={`${currentTheme.name} Logo`}
-            className={`${sizeClasses[size]} object-contain rounded-lg transition-all duration-200 ${
-              isDarkMode ? 'brightness-125 contrast-110' : ''
-            }`}
-          />
+          <>
+            {console.log('Logo component - logoUrl:', logoUrl, 'Type:', typeof logoUrl)}
+            <img 
+              src={logoUrl} 
+              alt={`${currentTheme.name} Logo`}
+              className={`${sizeClasses[size]} object-contain rounded-lg transition-all duration-200 ${
+                isDarkMode ? 'brightness-125 contrast-110' : ''
+              }`}
+              onError={(e) => {
+                console.error('Image failed to load:', logoUrl);
+                console.error('Image error event:', e);
+              }}
+            />
+          </>
         ) : (
           <div className={`${sizeClasses[size]} flex items-center justify-center bg-muted rounded-lg border-2 border-dashed border-muted-foreground/25`}>
             {isGenerating ? (

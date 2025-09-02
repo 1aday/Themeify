@@ -281,7 +281,7 @@ export function LandingPageScene() {
                     className="text-muted-foreground italic"
                     style={{ fontFamily: 'var(--font-serif)' }}
                   >
-                    "{testimonial.content}"
+                    &ldquo;{testimonial.content}&rdquo;
                   </p>
                 </CardContent>
               </Card>
@@ -304,7 +304,7 @@ export function LandingPageScene() {
               className="text-xl text-muted-foreground"
               style={{ fontFamily: 'var(--font-sans)' }}
             >
-              Choose the plan that's right for your team.
+              Choose the plan that&apos;s right for your team.
             </p>
           </div>
           
@@ -493,7 +493,7 @@ export function LandingPageScene() {
               className="text-xl text-muted-foreground"
               style={{ fontFamily: 'var(--font-sans)' }}
             >
-              Have questions? We'd love to hear from you.
+              Have questions? We&apos;d love to hear from you.
             </p>
           </div>
           
@@ -509,7 +509,7 @@ export function LandingPageScene() {
                 <CardDescription 
                   style={{ fontFamily: 'var(--font-sans)' }}
                 >
-                  Fill out the form and we'll get back to you within 24 hours.
+                  Fill out the form and we&apos;ll get back to you within 24 hours.
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">

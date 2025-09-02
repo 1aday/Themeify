@@ -213,7 +213,7 @@ All colors must be in HEX format (#RRGGBB). Do not use rgba() or other formats.
           content: [
             {
               type: 'input_text',
-              text: prompt
+              text: userMessage
             }
           ]
         }
@@ -236,7 +236,7 @@ All colors must be in HEX format (#RRGGBB). Do not use rgba() or other formats.
     });
 
     // Get the content from output_text (new API format)
-    const content = (response as any).output_text;
+    const content = (response as { output_text: string }).output_text;
     
     if (!content) {
       console.error('Could not find content in response:', response);

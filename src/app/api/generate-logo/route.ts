@@ -43,6 +43,15 @@ export async function POST(request: NextRequest) {
     console.log('Generating logo with prompt:', logoPrompt);
     
     // Generate logo using OpenAI's image model via Replicate
+    console.log('Calling Replicate API with params:', {
+      model: "openai/gpt-image-1",
+      prompt: logoPrompt,
+      quality: "low",
+      number_of_images: 1,
+      aspect_ratio: "3:2",
+      hasOpenAIKey: !!openaiApiKey
+    });
+    
     const output = await replicate.run("openai/gpt-image-1", {
       input: {
         prompt: logoPrompt,
@@ -54,19 +63,78 @@ export async function POST(request: NextRequest) {
     });
     
     console.log('Logo generation completed');
+    console.log('Raw output from Replicate:', JSON.stringify(output, null, 2));
+    console.log('Output type:', typeof output);
+    console.log('Is array:', Array.isArray(output));
     
-    // Extract the URL from the output
-    const logoUrl = (output as any)[0]?.url();
+    // Extract the URL from the output - handle different response formats
+    let logoUrl: string | null = null;
     
-    if (!logoUrl) {
-      throw new Error('No logo URL returned from Replicate');
+    if (Array.isArray(output)) {
+      // If it's an array, get the first element
+      const firstItem = output[0];
+      console.log('First array item:', firstItem, 'Type:', typeof firstItem);
+      
+      if (typeof firstItem === 'string') {
+        logoUrl = firstItem;
+      } else if (firstItem && typeof firstItem === 'object' && 'url' in firstItem) {
+        logoUrl = (firstItem as { url: string }).url;
+      } else if (firstItem && typeof firstItem === 'object' && 'toString' in firstItem) {
+        logoUrl = firstItem.toString();
+      }
+    } else if (output && typeof output === 'object') {
+      // If it's an object, try different possible properties
+      if ('url' in output) {
+        logoUrl = (output as { url: string }).url;
+      } else if ('image' in output) {
+        logoUrl = (output as { image: string }).image;
+      } else if ('output' in output) {
+        const nestedOutput = (output as { output: unknown }).output;
+        if (Array.isArray(nestedOutput) && nestedOutput.length > 0) {
+          logoUrl = nestedOutput[0] as string;
+        }
+      }
+    } else if (typeof output === 'string') {
+      logoUrl = output;
     }
     
-    console.log('Logo URL:', logoUrl);
+    console.log('Extracted logo URL:', logoUrl);
+    
+    // Validate that we have a proper URL string
+    const isValidUrl = (url: string): boolean => {
+      try {
+        new URL(url);
+        return url.startsWith('http://') || url.startsWith('https://');
+      } catch {
+        return false;
+      }
+    };
+    
+    if (!logoUrl || logoUrl === '[object Object]' || !isValidUrl(logoUrl)) {
+      console.error('Failed to extract valid URL from output:', output);
+      
+      // Try one more fallback - sometimes the URL might be nested deeper
+      if (output && typeof output === 'object') {
+        const outputStr = JSON.stringify(output);
+        const urlMatch = outputStr.match(/https?:\/\/[^\s"']+/);
+        if (urlMatch) {
+          logoUrl = urlMatch[0];
+          console.log('Found URL via regex fallback:', logoUrl);
+        }
+      }
+      
+      if (!logoUrl || logoUrl === '[object Object]') {
+        throw new Error(`No valid logo URL returned from Replicate. Output: ${JSON.stringify(output)}`);
+      }
+    }
+    
+    // Final validation and cleanup
+    const finalLogoUrl = logoUrl.trim();
+    console.log('Final logo URL being returned:', finalLogoUrl);
     
     return NextResponse.json({
       success: true,
-      logoUrl,
+      logoUrl: finalLogoUrl,
       prompt: logoPrompt
     });
     
