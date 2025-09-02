@@ -7,7 +7,8 @@ import { Textarea } from '@/components/ui/textarea';
 import { Switch } from '@/components/ui/switch';
 import { Card, CardContent } from '@/components/ui/card';
 import { useThemeStore } from '@/state/themeStore';
-import { Sparkles } from 'lucide-react';
+import { Sparkles, Image } from 'lucide-react';
+import { Logo } from '@/components/ui/logo';
 
 /**
  * Generate tab for creating themes from prompts, images, or SVG
@@ -18,7 +19,7 @@ export function GenerateTab() {
   const [modifyPrompt, setModifyPrompt] = useState('');
   const [showModify, setShowModify] = useState(false);
   
-  const { generateTheme, isGenerating, lastGenerationText } = useThemeStore();
+  const { generateTheme, generateLogo, isGenerating, lastGenerationText } = useThemeStore();
 
   const loadingMessages = [
     "Crafting your theme...",
@@ -50,7 +51,11 @@ export function GenerateTab() {
       return;
     }
     
-    await generateTheme(prompt, false, 'create');
+    // Generate both theme and logo in parallel
+    await Promise.all([
+      generateTheme(prompt, false, 'create'),
+      generateLogo(prompt)
+    ]);
     setShowModify(true);
   };
 
@@ -115,6 +120,18 @@ export function GenerateTab() {
           </Button>
         </div>
       )}
+
+      {/* Logo Generation Section */}
+      <div className="space-y-3 p-4 bg-muted/30 rounded-lg border border-muted">
+        <div className="flex items-center space-x-2">
+          <Image className="h-4 w-4" />
+          <Label className="text-sm font-medium">Generate Logo</Label>
+        </div>
+        <p className="text-xs text-muted-foreground">
+          Create a custom logo that matches your theme
+        </p>
+        <Logo size="sm" showGenerateButton={true} customPrompt={prompt} />
+      </div>
 
       {/* Generation Status */}
       {isGenerating && (

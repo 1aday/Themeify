@@ -71,8 +71,16 @@ export function PaletteScene() {
     <div className="space-y-8">
       {/* Header */}
       <div className="text-center">
-        <h1 className="text-3xl font-bold">Color Palette</h1>
-        <p className="text-muted-foreground mt-2">
+        <h1 
+          className="text-3xl font-bold"
+          style={{ fontFamily: 'var(--font-sans)' }}
+        >
+          Color Palette
+        </h1>
+        <p 
+          className="text-muted-foreground mt-2"
+          style={{ fontFamily: 'var(--font-sans)' }}
+        >
           Complete overview of all theme colors and their usage
         </p>
       </div>
@@ -81,8 +89,15 @@ export function PaletteScene() {
       {colorGroups.map((group) => (
         <Card key={group.title} className="theme-shadow">
           <CardHeader>
-            <CardTitle className="text-lg">{group.title}</CardTitle>
-            <CardDescription>
+            <CardTitle 
+              className="text-lg"
+              style={{ fontFamily: 'var(--font-sans)' }}
+            >
+              {group.title}
+            </CardTitle>
+            <CardDescription 
+              style={{ fontFamily: 'var(--font-sans)' }}
+            >
               {group.colors.length} color{group.colors.length !== 1 ? 's' : ''} in this group
             </CardDescription>
           </CardHeader>
@@ -96,13 +111,21 @@ export function PaletteScene() {
                       style={{ backgroundColor: `oklch(var(--${color.token}))` }}
                     />
                     <div>
-                      <div className="font-medium text-sm">{color.name}</div>
+                      <div 
+                        className="font-medium text-sm"
+                        style={{ fontFamily: 'var(--font-sans)' }}
+                      >
+                        {color.name}
+                      </div>
                       <div className="text-xs text-muted-foreground font-mono">
                         --{color.token}
                       </div>
                     </div>
                   </div>
-                  <p className="text-xs text-muted-foreground">
+                  <p 
+                    className="text-xs text-muted-foreground"
+                    style={{ fontFamily: 'var(--font-sans)' }}
+                  >
                     {color.description}
                   </p>
                 </div>
@@ -115,8 +138,15 @@ export function PaletteScene() {
       {/* CSS Variables Display */}
       <Card className="theme-shadow">
         <CardHeader>
-          <CardTitle className="text-lg">CSS Variables</CardTitle>
-          <CardDescription>
+          <CardTitle 
+            className="text-lg"
+            style={{ fontFamily: 'var(--font-sans)' }}
+          >
+            CSS Variables
+          </CardTitle>
+          <CardDescription 
+            style={{ fontFamily: 'var(--font-sans)' }}
+          >
             Raw CSS custom properties for developers
           </CardDescription>
         </CardHeader>

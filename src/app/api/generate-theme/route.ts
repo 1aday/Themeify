@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
+import OpenAI from 'openai';
 import { readFileSync } from 'fs';
 import { join } from 'path';
 
@@ -7,7 +8,7 @@ export async function POST(request: NextRequest) {
     console.log('API route called');
     
     const body = await request.json();
-    const { prompt, useBase, images, svg, mode } = body;
+    const { prompt, useBase, images, svg, mode, currentTheme } = body;
     
     console.log('Request body:', { prompt, useBase, mode });
     
@@ -154,8 +155,24 @@ All colors must be in HEX format (#RRGGBB). Do not use rgba() or other formats.
 
     // Prepare the user message with system prompt included
     let userMessage = systemPrompt + '\n\n' + jsonSchemaDescription + '\n\nUser request: ' + prompt;
-    if (useBase) {
-      userMessage = systemPrompt + '\n\n' + jsonSchemaDescription + '\n\nUser request: @[base_theme] ' + prompt;
+    if (useBase && currentTheme) {
+      // Convert current theme to the format expected by the LLM
+      const baseThemeData = {
+        light: Object.fromEntries(
+          Object.entries(currentTheme.light.vars).map(([key, value]) => [
+            key.replace('--', ''),
+            value
+          ])
+        ),
+        dark: Object.fromEntries(
+          Object.entries(currentTheme.dark.vars).map(([key, value]) => [
+            key.replace('--', ''),
+            value
+          ])
+        )
+      };
+      
+      userMessage = systemPrompt + '\n\n' + jsonSchemaDescription + '\n\n@[base_theme]\n' + JSON.stringify(baseThemeData, null, 2) + '\n\nUser request: ' + prompt;
     }
     
     // Add image/SVG context if provided
@@ -167,48 +184,62 @@ All colors must be in HEX format (#RRGGBB). Do not use rgba() or other formats.
     }
 
     console.log('Calling OpenAI API with:', {
-      model: 'gpt-4.1-nano-2025-04-14',
-      promptLength: prompt.length
+      model: 'gpt-5-nano',
+      userPromptLength: prompt.length,
+      systemPromptLength: systemPrompt.length,
+      totalMessageLength: (systemPrompt + jsonSchemaDescription + prompt).length
     });
 
-    // Call OpenAI API with chat completions format for gpt-4.1-nano
-    const response = await fetch('https://api.openai.com/v1/chat/completions', {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${apiKey}`,
-        'Content-Type': 'application/json',
+    // Initialize OpenAI client
+    const openai = new OpenAI({
+      apiKey: apiKey,
+    });
+
+    // Call OpenAI API with new gpt-5-nano format
+    const response = await openai.responses.create({
+      model: 'gpt-5-nano',
+      input: [
+        {
+          role: 'developer',
+          content: [
+            {
+              type: 'input_text',
+              text: systemPrompt + '\n\n' + jsonSchemaDescription
+            }
+          ]
+        },
+        {
+          role: 'user',
+          content: [
+            {
+              type: 'input_text',
+              text: prompt
+            }
+          ]
+        }
+      ],
+      text: {
+        format: {
+          type: 'text'
+        },
+        verbosity: 'medium'
       },
-      body: JSON.stringify({
-        model: 'gpt-4.1-nano-2025-04-14',
-        messages: [
-          {
-            role: 'system',
-            content: systemPrompt + '\n\n' + jsonSchemaDescription
-          },
-          {
-            role: 'user',
-            content: prompt
-          }
-        ],
-        temperature: 0.7,
-        max_tokens: 2000,
-        response_format: { type: "json_object" }
-      })
+      reasoning: {
+        effort: 'minimal',
+        summary: 'auto'
+      },
+      tools: [],
+      store: false,
+      include: [
+        'reasoning.encrypted_content'
+      ]
     });
 
-    if (!response.ok) {
-      const errorData = await response.json();
-      console.error('OpenAI API error:', errorData);
-      return NextResponse.json(
-        { error: `OpenAI API error: ${errorData.error?.message || 'Unknown error'}` },
-        { status: 500 }
-      );
-    }
-
-    const data = await response.json();
-    const content = data.choices[0]?.message?.content;
+    // Get the content from output_text (new API format)
+    const content = (response as any).output_text;
     
     if (!content) {
+      console.error('Could not find content in response:', response);
       return NextResponse.json(
         { error: 'No response content from OpenAI' },
         { status: 500 }

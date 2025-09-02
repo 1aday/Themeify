@@ -3,7 +3,7 @@ import { InternalTheme, createDefaultTheme, adaptLLMResponse } from '@/lib/color
 import { parseIntent, patchTheme } from '@/lib/colors/patcher';
 import { hexToOklch } from '@/lib/colors/hexToOklch';
 
-export type Scene = 'cards' | 'dashboard' | 'mail' | 'pricing' | 'colors';
+export type Scene = 'cards' | 'dashboard' | 'mail' | 'pricing' | 'colors' | 'landing';
 
 interface ThemeStore {
   // Current theme state
@@ -14,6 +14,11 @@ interface ThemeStore {
   // Generation state
   isGenerating: boolean;
   lastGenerationText: string;
+  
+  // Logo state
+  logoUrl: string | null;
+  isGeneratingLogo: boolean;
+  lastLogoPrompt: string;
   
   // History for undo/redo
   history: InternalTheme[];
@@ -30,6 +35,11 @@ interface ThemeStore {
   setGenerating: (generating: boolean) => void;
   setLastGenerationText: (text: string) => void;
   
+  // Logo actions
+  setLogoUrl: (url: string | null) => void;
+  setGeneratingLogo: (generating: boolean) => void;
+  setLastLogoPrompt: (prompt: string) => void;
+  
   // Theme modifications
   updateToken: (token: string, value: string, mode: 'light' | 'dark' | 'both') => void;
   updateFonts: (fonts: { sans?: string; serif?: string; mono?: string }) => void;
@@ -44,6 +54,9 @@ interface ThemeStore {
   
   // Theme generation
   generateTheme: (prompt: string, useBase?: boolean, mode?: 'create' | 'remix' | 'tweak') => Promise<void>;
+  
+  // Logo generation
+  generateLogo: (prompt: string) => Promise<void>;
 }
 
 const MAX_HISTORY = 50;
@@ -78,9 +91,12 @@ export const useThemeStore = create<ThemeStore>((set, get) => {
     // Initial state
     currentTheme: initialTheme,
     isDarkMode: false,
-    activeScene: 'cards',
+    activeScene: 'landing',
     isGenerating: false,
     lastGenerationText: '',
+    logoUrl: null,
+    isGeneratingLogo: false,
+    lastLogoPrompt: '',
     history: [initialTheme],
     historyIndex: 0,
 
@@ -116,6 +132,11 @@ export const useThemeStore = create<ThemeStore>((set, get) => {
     setScene: (scene) => set({ activeScene: scene }),
     setGenerating: (generating) => set({ isGenerating: generating }),
     setLastGenerationText: (text) => set({ lastGenerationText: text }),
+    
+    // Logo actions
+    setLogoUrl: (url) => set({ logoUrl: url }),
+    setGeneratingLogo: (generating) => set({ isGeneratingLogo: generating }),
+    setLastLogoPrompt: (prompt) => set({ lastLogoPrompt: prompt }),
     
     // Theme modifications
     updateToken: (token, value, mode) => {
@@ -295,7 +316,8 @@ export const useThemeStore = create<ThemeStore>((set, get) => {
             mode,
             seed: Math.floor(Math.random() * 1000), // Random seed for variety
             allowFonts: true,
-            allowShadows: false
+            allowShadows: false,
+            currentTheme: useBase ? currentTheme : undefined
           }),
         });
         
@@ -340,6 +362,73 @@ export const useThemeStore = create<ThemeStore>((set, get) => {
       } finally {
         setGenerating(false);
       }
+    },
+    
+    // Logo generation
+    generateLogo: async (prompt) => {
+      const { setGeneratingLogo, setLogoUrl, setLastLogoPrompt } = get();
+      
+      setGeneratingLogo(true);
+      setLastLogoPrompt(prompt);
+      
+      try {
+        console.log('Starting logo generation with prompt:', prompt);
+        
+        const response = await fetch('/api/generate-logo', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            prompt: `Make a logo for this website: ${prompt}`,
+            themeName: get().currentTheme.name
+          }),
+        });
+        
+        if (!response.ok) {
+          const errorData = await response.json().catch(() => ({}));
+          const errorMessage = errorData.error || `HTTP ${response.status}: ${response.statusText}`;
+          
+          // Handle specific error cases gracefully
+          let userFriendlyMessage = 'Failed to generate logo';
+          
+          if (errorMessage.includes('E005') || errorMessage.includes('sensitive')) {
+            userFriendlyMessage = 'Content flagged as sensitive. Please try a different prompt.';
+          } else if (errorMessage.includes('rate limit') || errorMessage.includes('quota')) {
+            userFriendlyMessage = 'Rate limit exceeded. Please try again in a moment.';
+          } else if (errorMessage.includes('invalid') || errorMessage.includes('malformed')) {
+            userFriendlyMessage = 'Invalid prompt. Please try a different description.';
+          } else if (errorMessage.includes('timeout')) {
+            userFriendlyMessage = 'Request timed out. Please try again.';
+          }
+          
+          console.warn('Logo generation failed:', errorMessage);
+          setLastLogoPrompt(userFriendlyMessage);
+          return; // Don't throw, just return gracefully
+        }
+        
+        const data = await response.json();
+        console.log('Logo generated:', data.logoUrl);
+        
+        setLogoUrl(data.logoUrl);
+        
+      } catch (error) {
+        console.error('Failed to generate logo:', error);
+        const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred';
+        
+        // Provide user-friendly error message
+        let userFriendlyMessage = 'Failed to generate logo. Please try again.';
+        
+        if (errorMessage.includes('network') || errorMessage.includes('fetch')) {
+          userFriendlyMessage = 'Network error. Please check your connection and try again.';
+        } else if (errorMessage.includes('timeout')) {
+          userFriendlyMessage = 'Request timed out. Please try again.';
+        }
+        
+        setLastLogoPrompt(userFriendlyMessage);
+      } finally {
+        setGeneratingLogo(false);
+      }
     }
   };
 });
@@ -352,3 +441,8 @@ export const useIsGenerating = () => useThemeStore((state) => state.isGenerating
 export const useLastGenerationText = () => useThemeStore((state) => state.lastGenerationText);
 export const useCanUndo = () => useThemeStore((state) => state.historyIndex > 0);
 export const useCanRedo = () => useThemeStore((state) => state.historyIndex < state.history.length - 1);
+
+// Logo selectors
+export const useLogoUrl = () => useThemeStore((state) => state.logoUrl);
+export const useIsGeneratingLogo = () => useThemeStore((state) => state.isGeneratingLogo);
+export const useLastLogoPrompt = () => useThemeStore((state) => state.lastLogoPrompt);

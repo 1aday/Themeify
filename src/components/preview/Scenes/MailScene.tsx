@@ -13,8 +13,16 @@ export function MailScene() {
         {/* Mail List */}
         <Card className="@xl:col-span-1">
           <CardHeader>
-            <CardTitle>Inbox</CardTitle>
-            <CardDescription>Your email messages</CardDescription>
+            <CardTitle 
+              style={{ fontFamily: 'var(--font-sans)' }}
+            >
+              Inbox
+            </CardTitle>
+            <CardDescription 
+              style={{ fontFamily: 'var(--font-sans)' }}
+            >
+              Your email messages
+            </CardDescription>
           </CardHeader>
           <CardContent className="space-y-2">
             <div className="flex items-center space-x-3 p-2 rounded-lg hover:bg-muted cursor-pointer">
@@ -23,10 +31,20 @@ export function MailScene() {
               </Avatar>
               <div className="flex-1 min-w-0">
                 <div className="flex items-center space-x-2">
-                  <span className="font-medium">John Doe</span>
+                  <span 
+                    className="font-medium"
+                    style={{ fontFamily: 'var(--font-sans)' }}
+                  >
+                    John Doe
+                  </span>
                   <Badge className="bg-secondary text-secondary-foreground">New</Badge>
                 </div>
-                <div className="text-sm text-muted-foreground truncate">Project update meeting</div>
+                <div 
+                  className="text-sm text-muted-foreground truncate"
+                  style={{ fontFamily: 'var(--font-sans)' }}
+                >
+                  Project update meeting
+                </div>
               </div>
             </div>
             <div className="flex items-center space-x-3 p-2 rounded-lg hover:bg-muted cursor-pointer">
@@ -35,9 +53,19 @@ export function MailScene() {
               </Avatar>
               <div className="flex-1 min-w-0">
                 <div className="flex items-center space-x-2">
-                  <span className="font-medium">Sarah Wilson</span>
+                  <span 
+                    className="font-medium"
+                    style={{ fontFamily: 'var(--font-sans)' }}
+                  >
+                    Sarah Wilson
+                  </span>
                 </div>
-                <div className="text-sm text-muted-foreground truncate">Design review feedback</div>
+                <div 
+                  className="text-sm text-muted-foreground truncate"
+                  style={{ fontFamily: 'var(--font-sans)' }}
+                >
+                  Design review feedback
+                </div>
               </div>
             </div>
           </CardContent>
@@ -46,8 +74,16 @@ export function MailScene() {
         {/* Mail Content */}
         <Card className="@xl:col-span-2">
           <CardHeader>
-            <CardTitle>Project Update Meeting</CardTitle>
-            <CardDescription>From: john@example.com</CardDescription>
+            <CardTitle 
+              style={{ fontFamily: 'var(--font-sans)' }}
+            >
+              Project Update Meeting
+            </CardTitle>
+            <CardDescription 
+              style={{ fontFamily: 'var(--font-sans)' }}
+            >
+              From: john@example.com
+            </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="prose prose-sm max-w-none">
@@ -57,9 +93,23 @@ export function MailScene() {
               <p>Best regards,<br />John</p>
             </div>
             <div className="flex space-x-2">
-              <Button>Reply</Button>
-              <Button variant="outline">Forward</Button>
-              <Button variant="outline">Delete</Button>
+              <Button 
+                style={{ fontFamily: 'var(--font-sans)' }}
+              >
+                Reply
+              </Button>
+              <Button 
+                variant="outline"
+                style={{ fontFamily: 'var(--font-sans)' }}
+              >
+                Forward
+              </Button>
+              <Button 
+                variant="outline"
+                style={{ fontFamily: 'var(--font-sans)' }}
+              >
+                Delete
+              </Button>
             </div>
           </CardContent>
         </Card>

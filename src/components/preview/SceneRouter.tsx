@@ -7,6 +7,7 @@ import { DashboardScene } from './Scenes/DashboardScene';
 import { MailScene } from './Scenes/MailScene';
 import { PricingScene } from './Scenes/PricingScene';
 import { ColorsScene } from './Scenes/ColorsScene';
+import { LandingPageScene } from './Scenes/LandingPageScene';
 
 export function SceneRouter() {
   const { activeScene } = useThemeStore();
@@ -23,7 +24,9 @@ export function SceneRouter() {
       return <PricingScene />;
     case 'colors':
       return <ColorsScene />;
+    case 'landing':
+      return <LandingPageScene />;
     default:
-      return <CardsScene />;
+      return <LandingPageScene />;
   }
 }

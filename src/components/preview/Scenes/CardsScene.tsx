@@ -51,8 +51,16 @@ export function CardsScene() {
     <div className="space-y-8 p-6">
       {/* Hero Section */}
       <div className="text-center space-y-4">
-        <h1 className="text-4xl font-bold">Component Showcase</h1>
-        <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+        <h1 
+          className="text-4xl font-bold"
+          style={{ fontFamily: 'var(--font-sans)' }}
+        >
+          Component Showcase
+        </h1>
+        <p 
+          className="text-xl text-muted-foreground max-w-2xl mx-auto"
+          style={{ fontFamily: 'var(--font-sans)' }}
+        >
           Experience the beauty of your theme across different UI components
         </p>
       </div>
@@ -68,14 +76,32 @@ export function CardsScene() {
                 <TrendingUp className="h-5 w-5" />
               </div>
               <div>
-                <CardTitle>Total Revenue</CardTitle>
-                <CardDescription>Monthly revenue trends and insights</CardDescription>
+                <CardTitle 
+                  style={{ fontFamily: 'var(--font-sans)' }}
+                >
+                  Total Revenue
+                </CardTitle>
+                <CardDescription 
+                  style={{ fontFamily: 'var(--font-sans)' }}
+                >
+                  Monthly revenue trends and insights
+                </CardDescription>
               </div>
             </div>
           </CardHeader>
           <CardContent className="space-y-4">
-            <div className="text-3xl font-bold">$15,231.89</div>
-            <p className="text-sm text-muted-foreground">+20.1% from last month</p>
+            <div 
+              className="text-3xl font-bold"
+              style={{ fontFamily: 'var(--font-serif)' }}
+            >
+              $15,231.89
+            </div>
+            <p 
+              className="text-sm text-muted-foreground"
+              style={{ fontFamily: 'var(--font-sans)' }}
+            >
+              +20.1% from last month
+            </p>
             <ChartContainer
               config={{
                 revenue: {
@@ -114,7 +140,11 @@ export function CardsScene() {
                   <Calendar className="h-5 w-5" />
                 </div>
                 <div>
-                  <CardTitle>June 2025</CardTitle>
+                  <CardTitle 
+                    style={{ fontFamily: 'var(--font-sans)' }}
+                  >
+                    June 2025
+                  </CardTitle>
                 </div>
               </div>
               <div className="flex space-x-1">
@@ -130,7 +160,11 @@ export function CardsScene() {
           <CardContent>
             <div className="grid grid-cols-7 gap-1 text-center">
               {['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'].map(day => (
-                <div key={day} className="p-2 text-sm font-medium text-muted-foreground">
+                <div 
+                  key={day} 
+                  className="p-2 text-sm font-medium text-muted-foreground"
+                  style={{ fontFamily: 'var(--font-sans)' }}
+                >
                   {day}
                 </div>
               ))}
@@ -142,6 +176,7 @@ export function CardsScene() {
                     day === 13 ? 'bg-primary text-primary-foreground' : 
                     'hover:bg-muted/50'
                   }`}
+                  style={{ fontFamily: 'var(--font-sans)' }}
                 >
                   {day}
                 </div>
@@ -158,8 +193,16 @@ export function CardsScene() {
                 <Activity className="h-5 w-5" />
               </div>
               <div>
-                <CardTitle>Exercise Minutes</CardTitle>
-                <CardDescription>Your exercise minutes are ahead of where you normally are</CardDescription>
+                <CardTitle 
+                  style={{ fontFamily: 'var(--font-sans)' }}
+                >
+                  Exercise Minutes
+                </CardTitle>
+                <CardDescription 
+                  style={{ fontFamily: 'var(--font-sans)' }}
+                >
+                  Your exercise minutes are ahead of where you normally are
+                </CardDescription>
               </div>
             </div>
           </CardHeader>
@@ -215,14 +258,27 @@ export function CardsScene() {
                 <Target className="h-5 w-5" />
               </div>
               <div>
-                <CardTitle>Move Goal</CardTitle>
-                <CardDescription>Set your daily activity goal</CardDescription>
+                <CardTitle 
+                  style={{ fontFamily: 'var(--font-sans)' }}
+                >
+                  Move Goal
+                </CardTitle>
+                <CardDescription 
+                  style={{ fontFamily: 'var(--font-sans)' }}
+                >
+                  Set your daily activity goal
+                </CardDescription>
               </div>
             </div>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="text-center">
-              <div className="text-2xl font-bold">350 CALORIES/DAY</div>
+              <div 
+                className="text-2xl font-bold"
+                style={{ fontFamily: 'var(--font-serif)' }}
+              >
+                350 CALORIES/DAY
+              </div>
               <div className="flex items-center justify-center space-x-2 mt-2">
                 <Button size="sm" variant="outline" className="p-1">
                   <Minus className="h-4 w-4" />
@@ -256,7 +312,12 @@ export function CardsScene() {
                 />
               </BarChart>
             </ChartContainer>
-            <Button className="w-full">Set Goal</Button>
+            <Button 
+              className="w-full"
+              style={{ fontFamily: 'var(--font-sans)' }}
+            >
+              Set Goal
+            </Button>
           </CardContent>
         </Card>
       </div>

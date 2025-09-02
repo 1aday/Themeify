@@ -98,7 +98,7 @@ export function validateThemeResponse(response: unknown): response is ThemeRespo
   ];
   
   for (const prop of requiredProperties) {
-    if (!(prop in theme.light) || !(prop in theme.dark)) return false;
+    if (!(prop in (theme.light as Record<string, unknown>)) || !(prop in (theme.dark as Record<string, unknown>))) return false;
     if (typeof (theme.light as Record<string, unknown>)[prop] !== 'string') return false;
     if (typeof (theme.dark as Record<string, unknown>)[prop] !== 'string') return false;
   }

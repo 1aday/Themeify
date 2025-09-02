@@ -102,8 +102,16 @@ export function DashboardScene() {
     <div className="space-y-8 p-6">
       {/* Header */}
       <div className="text-center">
-        <h1 className="text-3xl font-bold">Dashboard</h1>
-        <p className="text-muted-foreground mt-2">
+        <h1 
+          className="text-3xl font-bold"
+          style={{ fontFamily: 'var(--font-sans)' }}
+        >
+          Dashboard
+        </h1>
+        <p 
+          className="text-muted-foreground mt-2"
+          style={{ fontFamily: 'var(--font-sans)' }}
+        >
           Overview of key metrics and business performance
         </p>
       </div>
@@ -115,14 +123,25 @@ export function DashboardScene() {
           return (
             <Card key={index} className="theme-shadow">
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium text-muted-foreground">
+                <CardTitle 
+                  className="text-sm font-medium text-muted-foreground"
+                  style={{ fontFamily: 'var(--font-sans)' }}
+                >
                   {kpi.title}
                 </CardTitle>
                 <IconComponent className="h-4 w-4 text-muted-foreground" />
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold">{kpi.value}</div>
-                <div className="text-xs text-muted-foreground mt-1">
+                <div 
+                  className="text-2xl font-bold"
+                  style={{ fontFamily: 'var(--font-serif)' }}
+                >
+                  {kpi.value}
+                </div>
+                <div 
+                  className="text-xs text-muted-foreground mt-1"
+                  style={{ fontFamily: 'var(--font-sans)' }}
+                >
                   {kpi.description}
                 </div>
                 <div className="flex items-center gap-1 mt-2">
@@ -131,7 +150,10 @@ export function DashboardScene() {
                   ) : (
                     <TrendingDown className="h-3 w-3 text-accent" />
                   )}
-                  <span className="text-xs text-primary">
+                  <span 
+                    className="text-xs text-primary"
+                    style={{ fontFamily: 'var(--font-sans)' }}
+                  >
                     {kpi.change} from last month
                   </span>
                 </div>
@@ -144,8 +166,14 @@ export function DashboardScene() {
       {/* Filters and Table Section */}
       <Card className="theme-shadow">
         <CardHeader>
-          <CardTitle>Customer Performance</CardTitle>
-          <CardDescription>
+          <CardTitle 
+            style={{ fontFamily: 'var(--font-sans)' }}
+          >
+            Customer Performance
+          </CardTitle>
+          <CardDescription 
+            style={{ fontFamily: 'var(--font-sans)' }}
+          >
             Detailed view of customer metrics and revenue data
           </CardDescription>
         </CardHeader>
@@ -188,11 +216,31 @@ export function DashboardScene() {
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead>Customer</TableHead>
-                  <TableHead>Status</TableHead>
-                  <TableHead>Revenue</TableHead>
-                  <TableHead>Growth</TableHead>
-                  <TableHead>Last Seen</TableHead>
+                  <TableHead 
+                    style={{ fontFamily: 'var(--font-sans)' }}
+                  >
+                    Customer
+                  </TableHead>
+                  <TableHead 
+                    style={{ fontFamily: 'var(--font-sans)' }}
+                  >
+                    Status
+                  </TableHead>
+                  <TableHead 
+                    style={{ fontFamily: 'var(--font-sans)' }}
+                  >
+                    Revenue
+                  </TableHead>
+                  <TableHead 
+                    style={{ fontFamily: 'var(--font-sans)' }}
+                  >
+                    Growth
+                  </TableHead>
+                  <TableHead 
+                    style={{ fontFamily: 'var(--font-sans)' }}
+                  >
+                    Last Seen
+                  </TableHead>
                   <TableHead className="w-[50px]"></TableHead>
                 </TableRow>
               </TableHeader>
@@ -201,8 +249,18 @@ export function DashboardScene() {
                   <TableRow key={row.id}>
                     <TableCell>
                       <div>
-                        <div className="font-medium">{row.name}</div>
-                        <div className="text-sm text-muted-foreground">{row.email}</div>
+                        <div 
+                          className="font-medium"
+                          style={{ fontFamily: 'var(--font-sans)' }}
+                        >
+                          {row.name}
+                        </div>
+                        <div 
+                          className="text-sm text-muted-foreground"
+                          style={{ fontFamily: 'var(--font-sans)' }}
+                        >
+                          {row.email}
+                        </div>
                       </div>
                     </TableCell>
                     <TableCell>
@@ -212,13 +270,26 @@ export function DashboardScene() {
                         {row.status}
                       </Badge>
                     </TableCell>
-                    <TableCell className="font-medium">{row.revenue}</TableCell>
+                    <TableCell 
+                      className="font-medium"
+                      style={{ fontFamily: 'var(--font-serif)' }}
+                    >
+                      {row.revenue}
+                    </TableCell>
                     <TableCell>
-                      <span className={row.growth.startsWith('+') ? 'text-primary' : 'text-destructive'}>
+                      <span 
+                        className={row.growth.startsWith('+') ? 'text-primary' : 'text-destructive'}
+                        style={{ fontFamily: 'var(--font-sans)' }}
+                      >
                         {row.growth}
                       </span>
                     </TableCell>
-                    <TableCell className="text-muted-foreground">{row.lastSeen}</TableCell>
+                    <TableCell 
+                      className="text-muted-foreground"
+                      style={{ fontFamily: 'var(--font-sans)' }}
+                    >
+                      {row.lastSeen}
+                    </TableCell>
                     <TableCell>
                       <DropdownMenu>
                         <DropdownMenuTrigger asChild>
@@ -227,11 +298,27 @@ export function DashboardScene() {
                           </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end">
-                          <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                          <DropdownMenuLabel 
+                            style={{ fontFamily: 'var(--font-sans)' }}
+                          >
+                            Actions
+                          </DropdownMenuLabel>
                           <DropdownMenuSeparator />
-                          <DropdownMenuItem>View Details</DropdownMenuItem>
-                          <DropdownMenuItem>Edit Customer</DropdownMenuItem>
-                          <DropdownMenuItem>Delete Customer</DropdownMenuItem>
+                          <DropdownMenuItem 
+                            style={{ fontFamily: 'var(--font-sans)' }}
+                          >
+                            View Details
+                          </DropdownMenuItem>
+                          <DropdownMenuItem 
+                            style={{ fontFamily: 'var(--font-sans)' }}
+                          >
+                            Edit Customer
+                          </DropdownMenuItem>
+                          <DropdownMenuItem 
+                            style={{ fontFamily: 'var(--font-sans)' }}
+                          >
+                            Delete Customer
+                          </DropdownMenuItem>
                         </DropdownMenuContent>
                       </DropdownMenu>
                     </TableCell>
@@ -243,14 +330,27 @@ export function DashboardScene() {
 
           {/* Pagination */}
           <div className="flex items-center justify-between mt-4">
-            <div className="text-sm text-muted-foreground">
+            <div 
+              className="text-sm text-muted-foreground"
+              style={{ fontFamily: 'var(--font-sans)' }}
+            >
               Showing 1 to 5 of 5 results
             </div>
             <div className="flex gap-2">
-              <Button variant="outline" size="sm" disabled>
+              <Button 
+                variant="outline" 
+                size="sm" 
+                disabled
+                style={{ fontFamily: 'var(--font-sans)' }}
+              >
                 Previous
               </Button>
-              <Button variant="outline" size="sm" disabled>
+              <Button 
+                variant="outline" 
+                size="sm" 
+                disabled
+                style={{ fontFamily: 'var(--font-sans)' }}
+              >
                 Next
               </Button>
             </div>

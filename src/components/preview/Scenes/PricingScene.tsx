@@ -9,34 +9,77 @@ export function PricingScene() {
   return (
     <div className="space-y-6">
       <div className="text-center space-y-2">
-        <h1 className="text-3xl font-bold">Simple, transparent pricing</h1>
-        <p className="text-muted-foreground">Choose the plan that&apos;s right for you</p>
+        <h1 
+          className="text-3xl font-bold"
+          style={{ fontFamily: 'var(--font-sans)' }}
+        >
+          Simple, transparent pricing
+        </h1>
+        <p 
+          className="text-muted-foreground"
+          style={{ fontFamily: 'var(--font-sans)' }}
+        >
+          Choose the plan that&apos;s right for you
+        </p>
       </div>
 
       <div className="grid gap-6 @xl:grid-cols-3">
         {/* Starter Plan */}
         <Card>
           <CardHeader>
-            <CardTitle>Starter</CardTitle>
-            <CardDescription>Perfect for individuals and small teams</CardDescription>
-            <div className="text-3xl font-bold">$9<span className="text-lg text-muted-foreground">/month</span></div>
+            <CardTitle 
+              style={{ fontFamily: 'var(--font-sans)' }}
+            >
+              Starter
+            </CardTitle>
+            <CardDescription 
+              style={{ fontFamily: 'var(--font-sans)' }}
+            >
+              Perfect for individuals and small teams
+            </CardDescription>
+            <div 
+              className="text-3xl font-bold"
+              style={{ fontFamily: 'var(--font-serif)' }}
+            >
+              $9<span className="text-lg text-muted-foreground">/month</span>
+            </div>
           </CardHeader>
           <CardContent className="space-y-3">
             <div className="flex items-center space-x-2">
               <Check className="h-4 w-4 text-primary" />
-              <span className="text-sm">Up to 5 projects</span>
+              <span 
+                className="text-sm"
+                style={{ fontFamily: 'var(--font-sans)' }}
+              >
+                Up to 5 projects
+              </span>
             </div>
             <div className="flex items-center space-x-2">
               <Check className="h-4 w-4 text-primary" />
-              <span className="text-sm">Basic analytics</span>
+              <span 
+                className="text-sm"
+                style={{ fontFamily: 'var(--font-sans)' }}
+              >
+                Basic analytics
+              </span>
             </div>
             <div className="flex items-center space-x-2">
               <Check className="h-4 w-4 text-primary" />
-              <span className="text-sm">Email support</span>
+              <span 
+                className="text-sm"
+                style={{ fontFamily: 'var(--font-sans)' }}
+              >
+                Email support
+              </span>
             </div>
           </CardContent>
           <CardFooter>
-            <Button className="w-full">Get Started</Button>
+            <Button 
+              className="w-full"
+              style={{ fontFamily: 'var(--font-sans)' }}
+            >
+              Get Started
+            </Button>
           </CardFooter>
         </Card>
 
@@ -44,69 +87,159 @@ export function PricingScene() {
         <Card className="border-primary">
           <CardHeader>
             <div className="flex items-center justify-between">
-              <CardTitle>Pro</CardTitle>
-              <Badge>Popular</Badge>
+              <CardTitle 
+                style={{ fontFamily: 'var(--font-sans)' }}
+              >
+                Pro
+              </CardTitle>
+              <Badge 
+                style={{ fontFamily: 'var(--font-sans)' }}
+              >
+                Popular
+              </Badge>
             </div>
-            <CardDescription>Best for growing businesses</CardDescription>
-            <div className="text-3xl font-bold">$29<span className="text-lg text-muted-foreground">/month</span></div>
+            <CardDescription 
+              style={{ fontFamily: 'var(--font-sans)' }}
+            >
+              Best for growing businesses
+            </CardDescription>
+            <div 
+              className="text-3xl font-bold"
+              style={{ fontFamily: 'var(--font-serif)' }}
+            >
+              $29<span className="text-lg text-muted-foreground">/month</span>
+            </div>
           </CardHeader>
           <CardContent className="space-y-3">
             <div className="flex items-center space-x-2">
               <Check className="h-4 w-4 text-primary" />
-              <span className="text-sm">Unlimited projects</span>
+              <span 
+                className="text-sm"
+                style={{ fontFamily: 'var(--font-sans)' }}
+              >
+                Unlimited projects
+              </span>
             </div>
             <div className="flex items-center space-x-2">
               <Check className="h-4 w-4 text-primary" />
-              <span className="text-sm">Advanced analytics</span>
+              <span 
+                className="text-sm"
+                style={{ fontFamily: 'var(--font-sans)' }}
+              >
+                Advanced analytics
+              </span>
             </div>
             <div className="flex items-center space-x-2">
               <Check className="h-4 w-4 text-primary" />
-              <span className="text-sm">Priority support</span>
+              <span 
+                className="text-sm"
+                style={{ fontFamily: 'var(--font-sans)' }}
+              >
+                Priority support
+              </span>
             </div>
             <div className="flex items-center space-x-2">
               <Check className="h-4 w-4 text-primary" />
-              <span className="text-sm">Custom integrations</span>
+              <span 
+                className="text-sm"
+                style={{ fontFamily: 'var(--font-sans)' }}
+              >
+                Custom integrations
+              </span>
             </div>
           </CardContent>
           <CardFooter>
-            <Button className="w-full">Get Started</Button>
+            <Button 
+              className="w-full"
+              style={{ fontFamily: 'var(--font-sans)' }}
+            >
+              Get Started
+            </Button>
           </CardFooter>
         </Card>
 
         {/* Enterprise Plan */}
         <Card>
           <CardHeader>
-            <CardTitle>Enterprise</CardTitle>
-            <CardDescription>For large organizations</CardDescription>
-            <div className="text-3xl font-bold">$99<span className="text-lg text-muted-foreground">/month</span></div>
+            <CardTitle 
+              style={{ fontFamily: 'var(--font-sans)' }}
+            >
+              Enterprise
+            </CardTitle>
+            <CardDescription 
+              style={{ fontFamily: 'var(--font-sans)' }}
+            >
+              For large organizations
+            </CardDescription>
+            <div 
+              className="text-3xl font-bold"
+              style={{ fontFamily: 'var(--font-serif)' }}
+            >
+              $99<span className="text-lg text-muted-foreground">/month</span>
+            </div>
           </CardHeader>
           <CardContent className="space-y-3">
             <div className="flex items-center space-x-2">
               <Check className="h-4 w-4 text-primary" />
-              <span className="text-sm">Everything in Pro</span>
+              <span 
+                className="text-sm"
+                style={{ fontFamily: 'var(--font-sans)' }}
+              >
+                Everything in Pro
+              </span>
             </div>
             <div className="flex items-center space-x-2">
               <Check className="h-4 w-4 text-primary" />
-              <span className="text-sm">Dedicated support</span>
+              <span 
+                className="text-sm"
+                style={{ fontFamily: 'var(--font-sans)' }}
+              >
+                Dedicated support
+              </span>
             </div>
             <div className="flex items-center space-x-2">
               <Check className="h-4 w-4 text-primary" />
-              <span className="text-sm">Custom branding</span>
+              <span 
+                className="text-sm"
+                style={{ fontFamily: 'var(--font-sans)' }}
+              >
+                Custom branding
+              </span>
             </div>
             <div className="flex items-center space-x-2">
               <Check className="h-4 w-4 text-primary" />
-              <span className="text-sm">SLA guarantee</span>
+              <span 
+                className="text-sm"
+                style={{ fontFamily: 'var(--font-sans)' }}
+              >
+                SLA guarantee
+              </span>
             </div>
           </CardContent>
           <CardFooter>
-            <Button className="w-full">Contact Sales</Button>
+            <Button 
+              className="w-full"
+              style={{ fontFamily: 'var(--font-sans)' }}
+            >
+              Contact Sales
+            </Button>
           </CardFooter>
         </Card>
       </div>
 
       <div className="text-center">
-        <p className="text-muted-foreground">All plans include a 14-day free trial</p>
-        <Button variant="link">View full feature comparison →</Button>
+        <p 
+          className="text-muted-foreground"
+          style={{ fontFamily: 'var(--font-sans)' }}
+        >
+          All plans include a 14-day free trial
+        </p>
+        <Button 
+          variant="link"
+          style={{ fontFamily: 'var(--font-sans)' }}
+        >
+          View full feature comparison →
+        </Button>
       </div>
     </div>
   );

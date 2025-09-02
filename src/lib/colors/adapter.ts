@@ -47,6 +47,19 @@ export function adaptLLMResponse(
   
   const { theme, text } = llmResponse;
   
+  // Generate a UUID with fallback for SSR
+  const generateId = () => {
+    if (typeof crypto !== 'undefined' && crypto.randomUUID) {
+      return crypto.randomUUID();
+    }
+    // Fallback for server-side rendering
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+      const r = Math.random() * 16 | 0;
+      const v = c === 'x' ? r : (r & 0x3 | 0x8);
+      return v.toString(16);
+    });
+  };
+  
   // Extract fonts and other non-color tokens from light mode
   const fonts = {
     sans: theme.light['font-sans'] || 'Inter, ui-sans-serif, system-ui',
@@ -113,7 +126,7 @@ export function adaptLLMResponse(
   };
   
   const result = {
-    id: crypto.randomUUID(),
+    id: generateId(),
     name: themeName,
     notes: text,
     version: 1 as const,
@@ -165,8 +178,21 @@ export function adaptToLLMFormat(theme: InternalTheme): LLMThemeResponse {
  * Creates a default theme with neutral colors
  */
 export function createDefaultTheme(): InternalTheme {
+  // Generate a UUID with fallback for SSR
+  const generateId = () => {
+    if (typeof crypto !== 'undefined' && crypto.randomUUID) {
+      return crypto.randomUUID();
+    }
+    // Fallback for server-side rendering
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+      const r = Math.random() * 16 | 0;
+      const v = c === 'x' ? r : (r & 0x3 | 0x8);
+      return v.toString(16);
+    });
+  };
+
   return {
-    id: crypto.randomUUID(),
+    id: generateId(),
     name: 'Default Theme',
     version: 1,
     fonts: {
